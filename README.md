@@ -14,7 +14,6 @@ Penance helps you build healthy habits by requiring physical activity to "pay" f
 - **Automatic Screen Time Monitoring**: Uses iOS DeviceActivity API to track selected apps in real-time
 - **Lock Screen Widget**: Shows your current balance at a glance
 - **History & Stats**: Weekly charts, YTD totals, and all-time statistics
-- **Dark Mode Support**: Adaptive UI for light and dark modes
 - **Notifications**: Get pinged when your balance hits zero
 
 ## How It Works
@@ -31,6 +30,6 @@ If you're going to waste your minutes, at least earn them.
 
 - Built with SwiftUI and iOS DeviceActivity framework
 - Requires iOS 16+ and a physical device (Screen Time API unavailable in Simulator)
-- Uses App Groups (`group.com.attison.penance`) for data sharing between app and extensions
+- Uses App Groups for data sharing between app and extensions
 - All data stored locally with UserDefaults - no cloud sync
 - Three extensions: Main app, Widget, and DeviceActivityMonitor
