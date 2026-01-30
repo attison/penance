@@ -6,14 +6,103 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		5492B17E2F298540007F0DFD /* DeviceActivity.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5492B17D2F29853F007F0DFD /* DeviceActivity.framework */; };
+		5492B1862F298540007F0DFD /* DeviceActivityMonitorExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5492B17B2F29853F007F0DFD /* DeviceActivityMonitorExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		5492B1932F29891E007F0DFD /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5492B1922F29891E007F0DFD /* WidgetKit.framework */; };
+		5492B1952F29891E007F0DFD /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5492B1942F29891E007F0DFD /* SwiftUI.framework */; };
+		5492B1A42F298921007F0DFD /* PenanceWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 5492B1912F29891E007F0DFD /* PenanceWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		5492B1842F298540007F0DFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5492B1472F295E27007F0DFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5492B17A2F29853F007F0DFD;
+			remoteInfo = DeviceActivityMonitorExtension;
+		};
+		5492B1A22F298921007F0DFD /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 5492B1472F295E27007F0DFD /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5492B1902F29891E007F0DFD;
+			remoteInfo = PenanceWidgetExtension;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		5492B18B2F298540007F0DFD /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				5492B1862F298540007F0DFD /* DeviceActivityMonitorExtension.appex in Embed Foundation Extensions */,
+				5492B1A42F298921007F0DFD /* PenanceWidgetExtension.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		5492B14F2F295E27007F0DFD /* Penance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Penance.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		5492B17B2F29853F007F0DFD /* DeviceActivityMonitorExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeviceActivityMonitorExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5492B17D2F29853F007F0DFD /* DeviceActivity.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = DeviceActivity.framework; path = System/Library/Frameworks/DeviceActivity.framework; sourceTree = SDKROOT; };
+		5492B1912F29891E007F0DFD /* PenanceWidgetExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = PenanceWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		5492B1922F29891E007F0DFD /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		5492B1942F29891E007F0DFD /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		5492B1A92F2989A8007F0DFD /* PenanceWidgetExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PenanceWidget/PenanceWidgetExtension.entitlements; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
+		5492B1872F298540007F0DFD /* Exceptions for "DeviceActivityMonitorExtension" folder in "DeviceActivityMonitorExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5492B17A2F29853F007F0DFD /* DeviceActivityMonitorExtension */;
+		};
+		5492B1A52F298921007F0DFD /* Exceptions for "PenanceWidget" folder in "PenanceWidgetExtension" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5492B1902F29891E007F0DFD /* PenanceWidgetExtension */;
+		};
+		5492B1AC2F2A71B5007F0DFD /* Exceptions for "Penance" folder in "Penance" target */ = {
+			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
+			membershipExceptions = (
+				Info.plist,
+			);
+			target = 5492B14E2F295E27007F0DFD /* Penance */;
+		};
+/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		5492B1512F295E27007F0DFD /* Penance */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5492B1AC2F2A71B5007F0DFD /* Exceptions for "Penance" folder in "Penance" target */,
+			);
 			path = Penance;
+			sourceTree = "<group>";
+		};
+		5492B17F2F298540007F0DFD /* DeviceActivityMonitorExtension */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5492B1872F298540007F0DFD /* Exceptions for "DeviceActivityMonitorExtension" folder in "DeviceActivityMonitorExtension" target */,
+			);
+			path = DeviceActivityMonitorExtension;
+			sourceTree = "<group>";
+		};
+		5492B1962F29891E007F0DFD /* PenanceWidget */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				5492B1A52F298921007F0DFD /* Exceptions for "PenanceWidget" folder in "PenanceWidgetExtension" target */,
+			);
+			path = PenanceWidget;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -26,6 +115,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5492B1782F29853F007F0DFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5492B17E2F298540007F0DFD /* DeviceActivity.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5492B18E2F29891E007F0DFD /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5492B1952F29891E007F0DFD /* SwiftUI.framework in Frameworks */,
+				5492B1932F29891E007F0DFD /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -33,6 +139,9 @@
 			isa = PBXGroup;
 			children = (
 				5492B1512F295E27007F0DFD /* Penance */,
+				5492B17F2F298540007F0DFD /* DeviceActivityMonitorExtension */,
+				5492B1962F29891E007F0DFD /* PenanceWidget */,
+				5492B17C2F29853F007F0DFD /* Frameworks */,
 				5492B1502F295E27007F0DFD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -41,8 +150,20 @@
 			isa = PBXGroup;
 			children = (
 				5492B14F2F295E27007F0DFD /* Penance.app */,
+				5492B17B2F29853F007F0DFD /* DeviceActivityMonitorExtension.appex */,
+				5492B1912F29891E007F0DFD /* PenanceWidgetExtension.appex */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		5492B17C2F29853F007F0DFD /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				5492B17D2F29853F007F0DFD /* DeviceActivity.framework */,
+				5492B1922F29891E007F0DFD /* WidgetKit.framework */,
+				5492B1942F29891E007F0DFD /* SwiftUI.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -55,10 +176,13 @@
 				5492B14B2F295E27007F0DFD /* Sources */,
 				5492B14C2F295E27007F0DFD /* Frameworks */,
 				5492B14D2F295E27007F0DFD /* Resources */,
+				5492B18B2F298540007F0DFD /* Embed Foundation Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				5492B1852F298540007F0DFD /* PBXTargetDependency */,
+				5492B1A32F298921007F0DFD /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				5492B1512F295E27007F0DFD /* Penance */,
@@ -69,6 +193,50 @@
 			productName = Penance;
 			productReference = 5492B14F2F295E27007F0DFD /* Penance.app */;
 			productType = "com.apple.product-type.application";
+		};
+		5492B17A2F29853F007F0DFD /* DeviceActivityMonitorExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5492B1882F298540007F0DFD /* Build configuration list for PBXNativeTarget "DeviceActivityMonitorExtension" */;
+			buildPhases = (
+				5492B1772F29853F007F0DFD /* Sources */,
+				5492B1782F29853F007F0DFD /* Frameworks */,
+				5492B1792F29853F007F0DFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5492B17F2F298540007F0DFD /* DeviceActivityMonitorExtension */,
+			);
+			name = DeviceActivityMonitorExtension;
+			packageProductDependencies = (
+			);
+			productName = DeviceActivityMonitorExtension;
+			productReference = 5492B17B2F29853F007F0DFD /* DeviceActivityMonitorExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		5492B1902F29891E007F0DFD /* PenanceWidgetExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 5492B1A62F298921007F0DFD /* Build configuration list for PBXNativeTarget "PenanceWidgetExtension" */;
+			buildPhases = (
+				5492B18D2F29891E007F0DFD /* Sources */,
+				5492B18E2F29891E007F0DFD /* Frameworks */,
+				5492B18F2F29891E007F0DFD /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				5492B1962F29891E007F0DFD /* PenanceWidget */,
+			);
+			name = PenanceWidgetExtension;
+			packageProductDependencies = (
+			);
+			productName = PenanceWidgetExtension;
+			productReference = 5492B1912F29891E007F0DFD /* PenanceWidgetExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -81,6 +249,12 @@
 				LastUpgradeCheck = 2620;
 				TargetAttributes = {
 					5492B14E2F295E27007F0DFD = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					5492B17A2F29853F007F0DFD = {
+						CreatedOnToolsVersion = 26.2;
+					};
+					5492B1902F29891E007F0DFD = {
 						CreatedOnToolsVersion = 26.2;
 					};
 				};
@@ -100,12 +274,28 @@
 			projectRoot = "";
 			targets = (
 				5492B14E2F295E27007F0DFD /* Penance */,
+				5492B17A2F29853F007F0DFD /* DeviceActivityMonitorExtension */,
+				5492B1902F29891E007F0DFD /* PenanceWidgetExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
 		5492B14D2F295E27007F0DFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5492B1792F29853F007F0DFD /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5492B18F2F29891E007F0DFD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -122,7 +312,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		5492B1772F29853F007F0DFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		5492B18D2F29891E007F0DFD /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		5492B1852F298540007F0DFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5492B17A2F29853F007F0DFD /* DeviceActivityMonitorExtension */;
+			targetProxy = 5492B1842F298540007F0DFD /* PBXContainerItemProxy */;
+		};
+		5492B1A32F298921007F0DFD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 5492B1902F29891E007F0DFD /* PenanceWidgetExtension */;
+			targetProxy = 5492B1A22F298921007F0DFD /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5492B1582F295E29007F0DFD /* Debug */ = {
@@ -251,22 +468,27 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Penance/Penance.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37NHR93L6R;
+				DEVELOPMENT_TEAM = AZ3WXDCY23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Penance/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Penance;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.attison.Penance;
+				PRODUCT_BUNDLE_IDENTIFIER = com.attisonbarnes.penance;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
@@ -283,26 +505,151 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Penance/Penance.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = 37NHR93L6R;
+				DEVELOPMENT_TEAM = AZ3WXDCY23;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Penance/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = Penance;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.healthcare-fitness";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.attison.Penance;
+				PRODUCT_BUNDLE_IDENTIFIER = com.attisonbarnes.penance;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		5492B1892F298540007F0DFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitorExtension/DeviceActivityMonitorExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AZ3WXDCY23;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeviceActivityMonitorExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitorExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.attisonbarnes.penance.DeviceActivityMonitorExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5492B18A2F298540007F0DFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = DeviceActivityMonitorExtension/DeviceActivityMonitorExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AZ3WXDCY23;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = DeviceActivityMonitorExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = DeviceActivityMonitorExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.attisonbarnes.penance.DeviceActivityMonitorExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		5492B1A72F298921007F0DFD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = PenanceWidget/PenanceWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AZ3WXDCY23;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PenanceWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PenanceWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.attisonbarnes.penance.PenanceWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		5492B1A82F298921007F0DFD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = PenanceWidget/PenanceWidgetExtension.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = AZ3WXDCY23;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = PenanceWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = PenanceWidget;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.attisonbarnes.penance.PenanceWidget;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
@@ -327,6 +674,24 @@
 			buildConfigurations = (
 				5492B15B2F295E29007F0DFD /* Debug */,
 				5492B15C2F295E29007F0DFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5492B1882F298540007F0DFD /* Build configuration list for PBXNativeTarget "DeviceActivityMonitorExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5492B1892F298540007F0DFD /* Debug */,
+				5492B18A2F298540007F0DFD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		5492B1A62F298921007F0DFD /* Build configuration list for PBXNativeTarget "PenanceWidgetExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5492B1A72F298921007F0DFD /* Debug */,
+				5492B1A82F298921007F0DFD /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

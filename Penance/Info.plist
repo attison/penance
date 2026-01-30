@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>NSDeviceActivityUsageDescription</key>
+	<string>Penance checks screen time to suggest healthy limits and encourage working out as an alternative.</string>
+	<key>NSFamilyControlsUsageDescription</key>
+	<string>Penance helps you stay balanced by encouraging regular activity to counteract social media usage and set healthy screen time limits.</string>
+</dict>
+</plist>
