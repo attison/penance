@@ -19,7 +19,7 @@ struct HistoryView: View {
                             .frame(maxWidth: .infinity, alignment: .leading)
                             .padding(.horizontal)
                             .padding(.top, 60)
-                            .padding(.bottom, 0)
+                            .padding(.bottom, 16)
 
                         // Swipeable weekly charts
                         TabView(selection: $currentWeekOffset) {
@@ -36,9 +36,12 @@ struct HistoryView: View {
                         }
                         .tabViewStyle(.page(indexDisplayMode: .never))
                         .frame(height: 360)
+                        .padding(.bottom, 16)
 
                         // Stats Section
                         VStack(spacing: 10) {
+                            StatRow(title: "MTD \(counterManager.workoutType)", value: "\(counterManager.monthToDateWorkouts)")
+                            StatRow(title: "MTD Screen Time", value: "\(counterManager.monthToDateScreenTime) min")
                             StatRow(title: "YTD \(counterManager.workoutType)", value: "\(counterManager.yearToDateWorkouts)")
                             StatRow(title: "YTD Screen Time", value: "\(counterManager.yearToDateScreenTime) min")
                             StatRow(title: "All-Time \(counterManager.workoutType)", value: "\(counterManager.totalWorkouts)")
@@ -62,7 +65,7 @@ struct HistoryView: View {
                         .font(.system(size: 24, weight: .regular, design: .rounded))
                         .foregroundColor(.secondary)
                 }
-                .padding(.bottom, 60)
+                .padding(.bottom, 40)
             }
         }
     }

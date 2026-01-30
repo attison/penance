@@ -30,13 +30,32 @@ struct WeeklyChartView: View {
         return maxWorkouts / workoutsPerMinute
     }
 
+    var weekTotalWorkouts: Int {
+        weekData.reduce(0) { $0 + $1.workouts }
+    }
+
+    var weekTotalScreenTime: Int {
+        weekData.reduce(0) { $0 + $1.screenTimeMinutes }
+    }
+
     var body: some View {
-        VStack(spacing: 16) {
+        VStack(spacing: 8) {
             // Title
             Text(title)
                 .font(.system(size: 16, weight: .regular, design: .rounded))
                 .foregroundColor(.primary)
                 .frame(maxWidth: .infinity, alignment: .leading)
+
+            // Weekly totals
+            VStack(alignment: .leading, spacing: 4) {
+                Text("\(workoutType): \(weekTotalWorkouts)")
+                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .foregroundColor(.secondary)
+                Text("Screen time: \(weekTotalScreenTime) minutes")
+                    .font(.system(size: 14, weight: .medium, design: .rounded))
+                    .foregroundColor(.secondary)
+            }
+            .frame(maxWidth: .infinity, alignment: .leading)
 
             // Chart
             HStack(alignment: .bottom, spacing: 0) {

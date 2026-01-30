@@ -49,6 +49,14 @@ class CounterManager: ObservableObject {
         persistence.ytdScreenTime
     }
 
+    var monthToDateWorkouts: Int {
+        persistence.mtdWorkouts
+    }
+
+    var monthToDateScreenTime: Int {
+        persistence.mtdScreenTime
+    }
+
     private init() {
         persistence.checkAndResetYearIfNeeded()
         persistence.recalculateTotals()

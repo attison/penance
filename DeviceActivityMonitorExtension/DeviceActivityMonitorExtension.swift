@@ -108,7 +108,10 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
     private func recalculateTotals(defaults: UserDefaults) {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-dd"
-        let currentYear = Calendar.current.component(.year, from: Date())
+        let calendar = Calendar.current
+        let now = Date()
+        let currentYear = calendar.component(.year, from: now)
+        let currentMonth = calendar.component(.month, from: now)
 
         let workoutData = defaults.dictionary(forKey: "dailyWorkouts") as? [String: [String: Any]] ?? [:]
         let screenTimeData = defaults.dictionary(forKey: "dailyScreenTime") as? [String: Int] ?? [:]
@@ -117,24 +120,42 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         var allTimeScreenTime = 0
         var ytdWorkouts = 0
         var ytdScreenTime = 0
+        var mtdWorkouts = 0
+        var mtdScreenTime = 0
 
         for (dateKey, dayEntry) in workoutData {
             guard let count = dayEntry["count"] as? Int else { continue }
 
             allTimeWorkouts += count
 
-            if let date = dateFormatter.date(from: dateKey),
-               Calendar.current.component(.year, from: date) == currentYear {
-                ytdWorkouts += count
+            if let date = dateFormatter.date(from: dateKey) {
+                let year = calendar.component(.year, from: date)
+                let month = calendar.component(.month, from: date)
+
+                if year == currentYear {
+                    ytdWorkouts += count
+
+                    if month == currentMonth {
+                        mtdWorkouts += count
+                    }
+                }
             }
         }
 
         for (dateKey, screenTime) in screenTimeData {
             allTimeScreenTime += screenTime
 
-            if let date = dateFormatter.date(from: dateKey),
-               Calendar.current.component(.year, from: date) == currentYear {
-                ytdScreenTime += screenTime
+            if let date = dateFormatter.date(from: dateKey) {
+                let year = calendar.component(.year, from: date)
+                let month = calendar.component(.month, from: date)
+
+                if year == currentYear {
+                    ytdScreenTime += screenTime
+
+                    if month == currentMonth {
+                        mtdScreenTime += screenTime
+                    }
+                }
             }
         }
 
@@ -143,5 +164,7 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
         defaults.set(allTimeScreenTime, forKey: "totalScreenTimeMinutes")
         defaults.set(ytdWorkouts, forKey: "ytdWorkouts")
         defaults.set(ytdScreenTime, forKey: "ytdScreenTime")
+        defaults.set(mtdWorkouts, forKey: "mtdWorkouts")
+        defaults.set(mtdScreenTime, forKey: "mtdScreenTime")
     }
 }

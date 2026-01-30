@@ -77,7 +77,7 @@ struct IncrementView: View {
                         .foregroundColor(textColor.opacity(0.5))
                 }
                 .allowsHitTesting(false)
-                .padding(.bottom, 60)
+                .padding(.bottom, 40)
             }
         }
         .familyActivityPicker(

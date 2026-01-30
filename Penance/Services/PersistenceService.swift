@@ -16,6 +16,8 @@ class PersistenceService {
         static let dailyScreenTime = "dailyScreenTime"
         static let ytdWorkouts = "ytdWorkouts"
         static let ytdScreenTime = "ytdScreenTime"
+        static let mtdWorkouts = "mtdWorkouts"
+        static let mtdScreenTime = "mtdScreenTime"
         static let yearOfLastUpdate = "yearOfLastUpdate"
         static let workoutType = "workoutType"
         static let workoutsPerMinute = "workoutsPerMinute"
@@ -51,6 +53,16 @@ class PersistenceService {
     var ytdScreenTime: Int {
         get { defaults.integer(forKey: Keys.ytdScreenTime) }
         set { defaults.set(newValue, forKey: Keys.ytdScreenTime) }
+    }
+
+    var mtdWorkouts: Int {
+        get { defaults.integer(forKey: Keys.mtdWorkouts) }
+        set { defaults.set(newValue, forKey: Keys.mtdWorkouts) }
+    }
+
+    var mtdScreenTime: Int {
+        get { defaults.integer(forKey: Keys.mtdScreenTime) }
+        set { defaults.set(newValue, forKey: Keys.mtdScreenTime) }
     }
 
     var yearOfLastUpdate: Int {
@@ -168,7 +180,10 @@ class PersistenceService {
 
     // Recalculate totals from daily dictionaries
     func recalculateTotals() {
-        let currentYear = Calendar.current.component(.year, from: Date())
+        let calendar = Calendar.current
+        let now = Date()
+        let currentYear = calendar.component(.year, from: now)
+        let currentMonth = calendar.component(.month, from: now)
 
         let workoutData = defaults.dictionary(forKey: Keys.dailyWorkouts) as? [String: [String: Any]] ?? [:]
         let screenTimeData = defaults.dictionary(forKey: Keys.dailyScreenTime) as? [String: Int] ?? [:]
@@ -177,25 +192,42 @@ class PersistenceService {
         var allTimeScreenTime = 0
         var ytdWorkoutsCalc = 0
         var ytdScreenTimeCalc = 0
+        var mtdWorkoutsCalc = 0
+        var mtdScreenTimeCalc = 0
 
         for (dateKey, dayEntry) in workoutData {
             guard let count = dayEntry["count"] as? Int else { continue }
 
             allTimeWorkouts += count
 
-            if let date = dateFormatter.date(from: dateKey),
-               Calendar.current.component(.year, from: date) == currentYear {
-                ytdWorkoutsCalc += count
+            if let date = dateFormatter.date(from: dateKey) {
+                let year = calendar.component(.year, from: date)
+                let month = calendar.component(.month, from: date)
+
+                if year == currentYear {
+                    ytdWorkoutsCalc += count
+
+                    if month == currentMonth {
+                        mtdWorkoutsCalc += count
+                    }
+                }
             }
         }
 
         for (dateKey, screenTime) in screenTimeData {
             allTimeScreenTime += screenTime
 
-            // Check if this date is from current year
-            if let date = dateFormatter.date(from: dateKey),
-               Calendar.current.component(.year, from: date) == currentYear {
-                ytdScreenTimeCalc += screenTime
+            if let date = dateFormatter.date(from: dateKey) {
+                let year = calendar.component(.year, from: date)
+                let month = calendar.component(.month, from: date)
+
+                if year == currentYear {
+                    ytdScreenTimeCalc += screenTime
+
+                    if month == currentMonth {
+                        mtdScreenTimeCalc += screenTime
+                    }
+                }
             }
         }
 
@@ -204,6 +236,8 @@ class PersistenceService {
         totalScreenTimeMinutes = allTimeScreenTime
         ytdWorkouts = ytdWorkoutsCalc
         ytdScreenTime = ytdScreenTimeCalc
+        mtdWorkouts = mtdWorkoutsCalc
+        mtdScreenTime = mtdScreenTimeCalc
     }
 
     func reset() {
@@ -214,6 +248,8 @@ class PersistenceService {
         defaults.removeObject(forKey: Keys.dailyScreenTime)
         defaults.removeObject(forKey: Keys.ytdWorkouts)
         defaults.removeObject(forKey: Keys.ytdScreenTime)
+        defaults.removeObject(forKey: Keys.mtdWorkouts)
+        defaults.removeObject(forKey: Keys.mtdScreenTime)
         defaults.removeObject(forKey: Keys.yearOfLastUpdate)
     }
 }
