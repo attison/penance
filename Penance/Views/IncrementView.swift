@@ -25,19 +25,19 @@ struct IncrementView: View {
                 VStack(spacing: 8) {
                     if counterManager.balanceMinutes == 0 {
                         Text(balanceText)
-                            .font(.system(size: 24, weight: .medium, design: .rounded))
+                            .font(.system(size: 24, weight: .medium))
                             .foregroundColor(textColor)
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 40)
                             .scaleEffect(showPulse ? 1.1 : 1.0)
                     } else {
                         Text(balanceText)
-                            .font(.system(size: 80, weight: .bold, design: .rounded))
+                            .font(.system(size: 80, weight: .bold))
                             .foregroundColor(textColor)
                             .scaleEffect(showPulse ? 1.1 : 1.0)
 
                         Text(balanceLabel)
-                            .font(.system(size: 24, weight: .medium, design: .rounded))
+                            .font(.system(size: 24, weight: .medium))
                             .foregroundColor(textColor.opacity(0.7))
                     }
                 }
@@ -45,7 +45,7 @@ struct IncrementView: View {
 
                 // Instruction text
                 Text("Tap to add \(counterManager.workoutsPerMinute) \(counterManager.workoutType)")
-                    .font(.system(size: 18, weight: .regular, design: .rounded))
+                    .font(.system(size: 18, weight: .regular))
                     .foregroundColor(textColor.opacity(0.5))
                     .allowsHitTesting(false)
 
@@ -61,7 +61,7 @@ struct IncrementView: View {
                         }
                     }) {
                         Text(screenTimeMonitor.isAuthorized ? "Choose Which Apps to Pay Penance For" : "Enable Screen Time Tracking")
-                            .font(.system(size: 14, weight: .medium, design: .rounded))
+                            .font(.system(size: 14, weight: .medium))
                             .foregroundColor(.blue)
                     }
                     .padding(.bottom, 16)
@@ -70,10 +70,10 @@ struct IncrementView: View {
                 // Scroll hint
                 VStack(spacing: 3) {
                     Text("Scroll to see history")
-                        .font(.system(size: 14, weight: .regular, design: .rounded))
+                        .font(.system(size: 14, weight: .regular))
                         .foregroundColor(textColor.opacity(0.5))
                     Text("˅")
-                        .font(.system(size: 24, weight: .regular, design: .rounded))
+                        .font(.system(size: 24, weight: .regular))
                         .foregroundColor(textColor.opacity(0.5))
                 }
                 .allowsHitTesting(false)
@@ -94,14 +94,14 @@ struct IncrementView: View {
     private var backgroundColor: Color {
         let balance = counterManager.balanceMinutes
         if balance == 0 {
-            // Light gray
-            return Color(red: 0.95, green: 0.95, blue: 0.95)
+            // Neutral background
+            return Color(red: 0.859, green: 0.835, blue: 0.792)
         } else if balance > 0 {
-            // Light sage/mint green
-            return Color(red: 0.9, green: 0.97, blue: 0.93)
+            // Light workout background - teal/sage
+            return Color(red: 0.808, green: 0.878, blue: 0.845)
         } else {
-            // Light coral/salmon
-            return Color(red: 1.0, green: 0.93, blue: 0.93)
+            // Light screen time background
+            return Color(red: 0.878, green: 0.808, blue: 0.784)
         }
     }
 
@@ -111,11 +111,11 @@ struct IncrementView: View {
             // Dark gray
             return Color(red: 0.4, green: 0.4, blue: 0.4)
         } else if balance > 0 {
-            // Dark green
-            return Color(red: 0.2, green: 0.5, blue: 0.3)
+            // Dark workout color - teal/sage
+            return Color(red: 0.051, green: 0.380, blue: 0.370)
         } else {
-            // Dark red
-            return Color(red: 0.7, green: 0.2, blue: 0.2)
+            // Dark screen time color
+            return Color(red: 0.169, green: 0.051, blue: 0.008)
         }
     }
 

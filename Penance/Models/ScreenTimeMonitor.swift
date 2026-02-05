@@ -18,6 +18,32 @@ class ScreenTimeMonitor: ObservableObject {
     private init() {
         checkAuthorizationStatus()
         hasCompletedSetup = defaults.bool(forKey: "hasCompletedSetup")
+        loadSelectedApps()
+
+        // Automatically restart monitoring if we have saved apps and setup was completed
+        if hasCompletedSetup && !selectedApps.applicationTokens.isEmpty && isAuthorized {
+            startMonitoring()
+        }
+    }
+
+    private func loadSelectedApps() {
+        // Try to load persisted selection
+        if let data = defaults.data(forKey: "selectedAppsData") {
+            do {
+                selectedApps = try JSONDecoder().decode(FamilyActivitySelection.self, from: data)
+            } catch {
+                selectedApps = FamilyActivitySelection()
+            }
+        }
+    }
+
+    private func saveSelectedApps() {
+        do {
+            let data = try JSONEncoder().encode(selectedApps)
+            defaults.set(data, forKey: "selectedAppsData")
+        } catch {
+            print("Failed to save selected apps: \(error)")
+        }
     }
 
     func requestAuthorization() {
@@ -49,6 +75,9 @@ class ScreenTimeMonitor: ObservableObject {
         guard !selectedApps.applicationTokens.isEmpty else {
             return
         }
+
+        // Save selected apps for persistence
+        saveSelectedApps()
 
         let schedule = DeviceActivitySchedule(
             intervalStart: DateComponents(hour: 0, minute: 0),

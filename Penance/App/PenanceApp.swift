@@ -16,6 +16,7 @@ struct PenanceApp: App {
             ContentView()
                 .environmentObject(counterManager)
                 .environmentObject(screenTimeMonitor)
+                .preferredColorScheme(.light)
                 .onAppear {
                     counterManager.reloadData()
                     screenTimeMonitor.checkAuthorizationStatus()
