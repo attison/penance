@@ -23,7 +23,6 @@ struct PenanceApp: App {
                 }
                 .onChange(of: scenePhase) { oldPhase, newPhase in
                     if newPhase == .active {
-                        // App came to foreground - reload data from extension updates
                         counterManager.reloadData()
                     }
                 }

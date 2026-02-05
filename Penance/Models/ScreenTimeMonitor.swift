@@ -20,7 +20,6 @@ class ScreenTimeMonitor: ObservableObject {
         hasCompletedSetup = defaults.bool(forKey: "hasCompletedSetup")
         loadSelectedApps()
 
-        // Automatically restart monitoring if we have saved apps and setup was completed
         if hasCompletedSetup && !selectedApps.applicationTokens.isEmpty && isAuthorized {
             startMonitoring()
         }
@@ -62,7 +61,6 @@ class ScreenTimeMonitor: ObservableObject {
     }
 
     func checkAuthorizationStatus() {
-        // System already persists authorization state
         switch center.authorizationStatus {
         case .approved:
             isAuthorized = true
@@ -76,7 +74,6 @@ class ScreenTimeMonitor: ObservableObject {
             return
         }
 
-        // Save selected apps for persistence
         saveSelectedApps()
 
         let schedule = DeviceActivitySchedule(

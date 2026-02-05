@@ -32,7 +32,6 @@ struct Provider: TimelineProvider {
             workoutsPerMinute: getWorkoutsPerMinute()
         )
 
-        // Never auto-update - we'll trigger updates manually when balance changes
         let timeline = Timeline(entries: [entry], policy: .never)
         completion(timeline)
     }
@@ -67,7 +66,6 @@ struct PenanceWidgetEntryView: View {
     var body: some View {
         Group {
             if entry.balanceMinutes == 0 {
-                // Show large yin yang at equilibrium
                 Text("☯")
                     .font(.system(size: 40, weight: .regular))
             } else {

@@ -3,10 +3,8 @@ import Foundation
 class PersistenceService {
     static let shared = PersistenceService()
 
-    // Use App Group for sharing between app and extensions
     private let defaults = UserDefaults(suiteName: "group.com.attison.penance") ?? UserDefaults.standard
 
-    // Keys
     private enum Keys {
         static let balanceMinutes = "balanceMinutes"
         static let totalWorkouts = "totalWorkouts"
@@ -119,9 +117,7 @@ class PersistenceService {
     }
 
     private func checkFirstLaunch() {
-        // Check if this is first launch after install
         if defaults.object(forKey: "hasLaunchedBefore") == nil {
-            // First launch - clear any old data
             reset()
             defaults.set(true, forKey: "hasLaunchedBefore")
         }
@@ -132,11 +128,9 @@ class PersistenceService {
         let dateKey = dateFormatter.string(from: date)
         var dailyData = defaults.dictionary(forKey: Keys.dailyWorkouts) as? [String: [String: Any]] ?? [:]
 
-        // Get existing entry or create new one
-        var dayEntry = dailyData[dateKey] as? [String: Any] ?? [:]
+        var dayEntry = dailyData[dateKey] ?? [:]
         let existingCount = dayEntry["count"] as? Int ?? 0
 
-        // Update with new data
         dayEntry["count"] = existingCount + count
         dayEntry["workoutType"] = workoutType
         dailyData[dateKey] = dayEntry

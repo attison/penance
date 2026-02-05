@@ -9,7 +9,6 @@ struct IncrementView: View {
 
     var body: some View {
         ZStack {
-            // Full page tappable area
             backgroundColor
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
                 .contentShape(Rectangle())
@@ -21,7 +20,6 @@ struct IncrementView: View {
             VStack(spacing: 40) {
                 Spacer()
 
-                // Balance display
                 VStack(spacing: 8) {
                     if counterManager.balanceMinutes == 0 {
                         Text(balanceText)
@@ -43,7 +41,6 @@ struct IncrementView: View {
                 }
                 .allowsHitTesting(false)
 
-                // Instruction text
                 Text("Tap to add \(counterManager.workoutsPerMinute) \(counterManager.workoutType)")
                     .font(.system(size: 18, weight: .regular))
                     .foregroundColor(textColor.opacity(0.5))
@@ -51,7 +48,6 @@ struct IncrementView: View {
 
                 Spacer()
 
-                // Setup button - only show if setup not completed
                 if !screenTimeMonitor.hasCompletedSetup {
                     Button(action: {
                         if screenTimeMonitor.isAuthorized {
@@ -67,7 +63,6 @@ struct IncrementView: View {
                     .padding(.bottom, 16)
                 }
 
-                // Scroll hint
                 VStack(spacing: 3) {
                     Text("Scroll to see history")
                         .font(.system(size: 14, weight: .regular))
@@ -94,13 +89,10 @@ struct IncrementView: View {
     private var backgroundColor: Color {
         let balance = counterManager.balanceMinutes
         if balance == 0 {
-            // Neutral background
             return Color(red: 0.859, green: 0.835, blue: 0.792)
         } else if balance > 0 {
-            // Light workout background - teal/sage
             return Color(red: 0.808, green: 0.878, blue: 0.845)
         } else {
-            // Light screen time background
             return Color(red: 0.878, green: 0.808, blue: 0.784)
         }
     }
@@ -108,13 +100,10 @@ struct IncrementView: View {
     private var textColor: Color {
         let balance = counterManager.balanceMinutes
         if balance == 0 {
-            // Dark gray
             return Color(red: 0.4, green: 0.4, blue: 0.4)
         } else if balance > 0 {
-            // Dark workout color - teal/sage
             return Color(red: 0.051, green: 0.380, blue: 0.370)
         } else {
-            // Dark screen time color
             return Color(red: 0.169, green: 0.051, blue: 0.008)
         }
     }
@@ -143,7 +132,6 @@ struct IncrementView: View {
     private func addWorkouts() {
         counterManager.addWorkouts(counterManager.workoutsPerMinute)
 
-        // Pulse animation
         withAnimation(.easeInOut(duration: 0.2)) {
             showPulse = true
         }
@@ -154,7 +142,6 @@ struct IncrementView: View {
             }
         }
 
-        // Haptic feedback
         let impactFeedback = UIImpactFeedbackGenerator(style: .medium)
         impactFeedback.impactOccurred()
     }

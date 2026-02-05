@@ -61,11 +61,9 @@ class CounterManager: ObservableObject {
         persistence.checkAndResetYearIfNeeded()
         persistence.recalculateTotals()
 
-        // Load totals
         totalWorkouts = persistence.totalWorkouts
         totalScreenTimeMinutes = persistence.totalScreenTimeMinutes
 
-        // Calculate balance from totals
         let minutesEarned = totalWorkouts / workoutsPerMinute
         balanceMinutes = minutesEarned - totalScreenTimeMinutes
         persistence.balanceMinutes = balanceMinutes
@@ -103,13 +101,9 @@ class CounterManager: ObservableObject {
     }
 
     func addWorkouts(_ count: Int) {
-        // 1. Update daily workouts
         persistence.addDailyWorkouts(count)
-
-        // 2. Recalculate all totals from daily data
         persistence.recalculateTotals()
 
-        // 3. Calculate balance from totals
         totalWorkouts = persistence.totalWorkouts
         totalScreenTimeMinutes = persistence.totalScreenTimeMinutes
         let minutesEarned = totalWorkouts / workoutsPerMinute
@@ -121,18 +115,14 @@ class CounterManager: ObservableObject {
     // MARK: - Private Methods
 
     func reloadData() {
-        // Recalculate all totals from daily data
         persistence.recalculateTotals()
 
-        // Load totals into memory
         totalWorkouts = persistence.totalWorkouts
         totalScreenTimeMinutes = persistence.totalScreenTimeMinutes
 
-        // Calculate balance from totals
         let minutesEarned = totalWorkouts / workoutsPerMinute
         balanceMinutes = minutesEarned - totalScreenTimeMinutes
 
-        // Save calculated balance
         persistence.balanceMinutes = balanceMinutes
     }
 

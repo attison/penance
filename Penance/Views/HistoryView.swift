@@ -15,7 +15,6 @@ struct HistoryView: View {
     }
 
     private var shouldShowAllTime: Bool {
-        // Show all-time stats only if there's data from previous years
         return counterManager.yearToDateScreenTime != counterManager.totalScreenTimeMinutes
     }
 
@@ -27,7 +26,6 @@ struct HistoryView: View {
             VStack(spacing: 0) {
                 ScrollView(.vertical, showsIndicators: true) {
                     VStack(spacing: 0) {
-                        // Swipeable weekly charts
                         TabView(selection: $currentWeekOffset) {
                             ForEach((0..<12).reversed(), id: \.self) { weekOffset in
                                 WeeklyChartView(
@@ -45,9 +43,7 @@ struct HistoryView: View {
                         .padding(.top, 60)
                         .padding(.bottom, 16)
 
-                        // Stats Section
                         VStack(spacing: 10) {
-                            // Workout metrics
                             StatRow(title: "Weekly \(counterManager.workoutType)", value: "\(currentWeekWorkouts)")
                             StatRow(title: "MTD \(counterManager.workoutType)", value: "\(counterManager.monthToDateWorkouts)")
                             StatRow(title: "YTD \(counterManager.workoutType)", value: "\(counterManager.yearToDateWorkouts)")
@@ -58,7 +54,6 @@ struct HistoryView: View {
                             Divider()
                                 .padding(.vertical, 4)
 
-                            // Screen time metrics
                             StatRow(title: "Weekly Screen Time", value: "\(currentWeekScreenTime) min")
                             StatRow(title: "MTD Screen Time", value: "\(counterManager.monthToDateScreenTime) min")
                             StatRow(title: "YTD Screen Time", value: "\(counterManager.yearToDateScreenTime) min")
@@ -69,7 +64,6 @@ struct HistoryView: View {
                             Divider()
                                 .padding(.vertical, 4)
 
-                            // Date started
                             StatRow(title: "Date Started", value: counterManager.startDateString)
                         }
                         .padding(16)
@@ -80,7 +74,6 @@ struct HistoryView: View {
                     }
                 }
 
-                // Scroll hint - pinned to bottom
                 VStack(spacing: 3) {
                     Text("Scroll to see settings")
                         .font(.system(size: 14, weight: .regular))

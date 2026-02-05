@@ -15,7 +15,6 @@ struct SettingsView: View {
             GeometryReader { geometry in
                 ScrollView(.vertical, showsIndicators: true) {
                     VStack(spacing: 16) {
-                    // Workout Type Setting
                     VStack(alignment: .leading, spacing: 12) {
                         Text("What workout do you want to pay penance with?")
                             .font(.system(size: 14, weight: .medium))
@@ -44,7 +43,6 @@ struct SettingsView: View {
                     .padding(.top, 76)
                     .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
 
-                    // Workouts Per Minute Setting
                     VStack(alignment: .leading, spacing: 12) {
                         Text("How many \(workoutType.lowercased()) will pay penance for 1 minute of screen time?")
                             .font(.system(size: 14, weight: .medium))
@@ -71,7 +69,6 @@ struct SettingsView: View {
                     .padding(.horizontal)
                     .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
 
-                    // Change Apps button - only show if setup is completed
                     if screenTimeMonitor.hasCompletedSetup {
                         Button(action: {
                             isPickerPresented = true
@@ -85,7 +82,6 @@ struct SettingsView: View {
 
                     Spacer()
 
-                    // What is Penance section
                     VStack(alignment: .leading, spacing: 8) {
                         Text("What is Penance?")
                             .font(.system(size: 18, weight: .semibold))
