@@ -4,81 +4,55 @@ import WidgetKit
 import UserNotifications
 
 class DeviceActivityMonitorExtension: DeviceActivityMonitor {
+    private let screenTimeQueue = DispatchQueue(label: "com.penance.screentime.sync")
+
     override func eventDidReachThreshold(_ event: DeviceActivityEvent.Name, activity: DeviceActivityName) {
         super.eventDidReachThreshold(event, activity: activity)
 
-        #if DEBUG
-        print("🔔 Extension: Event fired - \(event)")
-        #endif
+        screenTimeQueue.async {
+            self.processEvent()
+        }
+    }
 
+    private func processEvent() {
         guard let defaults = UserDefaults(suiteName: "group.com.attison.penance") else {
-            #if DEBUG
-            print("❌ Extension: Cannot access App Group")
-            #endif
             return
         }
 
-        // Extract the minute number from event name (e.g., "min42" -> 42)
-        // This IS the total screen time for today
-        let eventName = String(describing: event)
-        guard let todaysTotalScreenTime = extractMinute(from: eventName) else {
-            #if DEBUG
-            print("❌ Extension: Cannot extract minute from event name")
-            #endif
-            return
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        let today = dateFormatter.string(from: Date())
+
+        let lastProcessedDay = defaults.string(forKey: "lastProcessedDay") ?? ""
+        var processedMinutes = defaults.integer(forKey: "processedMinutesToday")
+
+        if today != lastProcessedDay {
+            processedMinutes = 0
+            defaults.set(today, forKey: "lastProcessedDay")
         }
 
-        #if DEBUG
-        print("📊 Extension: Today's total screen time = \(todaysTotalScreenTime) minutes")
-        #endif
+        processedMinutes += 1
+        defaults.set(processedMinutes, forKey: "processedMinutesToday")
 
-        let previousBalance = defaults.integer(forKey: "balanceMinutes")
+        var dailyData = defaults.dictionary(forKey: "dailyScreenTime") as? [String: Int] ?? [:]
+        dailyData[today] = processedMinutes
+        defaults.set(dailyData, forKey: "dailyScreenTime")
 
-        // 1. Update daily screen time total
-        updateDailyScreenTime(defaults: defaults, totalForToday: todaysTotalScreenTime)
-
-        // 2. Recalculate all totals (YTD, all-time) from daily data
         recalculateTotals(defaults: defaults)
 
-        // 3. Calculate balance from totals: (totalWorkouts / workoutsPerMinute) - totalScreenTime
         let totalWorkouts = defaults.integer(forKey: "totalWorkouts")
         let totalScreenTime = defaults.integer(forKey: "totalScreenTimeMinutes")
         let workoutsPerMinute = defaults.integer(forKey: "workoutsPerMinute") > 0 ? defaults.integer(forKey: "workoutsPerMinute") : 5
         let minutesEarned = totalWorkouts / workoutsPerMinute
         let balance = minutesEarned - totalScreenTime
+        let previousBalance = defaults.integer(forKey: "balanceMinutes")
         defaults.set(balance, forKey: "balanceMinutes")
 
-        // Check if reached equilibrium - send notification immediately
-        if previousBalance > 0 && balance == 0 {
+        if previousBalance > 0 && balance <= 0 {
             sendTimeUpNotification()
-            #if DEBUG
-            print("🔔 Extension: Reached equilibrium - notification sent")
-            #endif
         }
 
-        #if DEBUG
-        print("✅ Extension: Updated balance = \(balance)")
-        print("📈 Extension: Total workouts = \(defaults.integer(forKey: "totalWorkouts")), Total screen time = \(defaults.integer(forKey: "totalScreenTimeMinutes"))")
-        #endif
-
         WidgetCenter.shared.reloadAllTimelines()
-    }
-
-    private func extractMinute(from eventName: String) -> Int? {
-        // Extract number from "min42" -> 42
-        let digits = eventName.components(separatedBy: CharacterSet.decimalDigits.inverted).joined()
-        return Int(digits)
-    }
-
-    private func updateDailyScreenTime(defaults: UserDefaults, totalForToday: Int) {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "yyyy-MM-dd"
-        let dateKey = dateFormatter.string(from: Date())
-
-        // Overwrite with today's total (handles missed events)
-        var dailyData = defaults.dictionary(forKey: "dailyScreenTime") as? [String: Int] ?? [:]
-        dailyData[dateKey] = totalForToday
-        defaults.set(dailyData, forKey: "dailyScreenTime")
     }
 
     private func sendTimeUpNotification() {
@@ -94,15 +68,7 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
             trigger: trigger
         )
 
-        UNUserNotificationCenter.current().add(request) { error in
-            #if DEBUG
-            if let error = error {
-                print("❌ Extension: Failed to send notification - \(error)")
-            } else {
-                print("✅ Extension: Notification scheduled")
-            }
-            #endif
-        }
+        UNUserNotificationCenter.current().add(request) { _ in }
     }
 
     private func recalculateTotals(defaults: UserDefaults) {

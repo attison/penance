@@ -50,15 +50,12 @@ class ScreenTimeMonitor: ObservableObject {
             return
         }
 
-        // Daily schedule from midnight to midnight, repeats every day
         let schedule = DeviceActivitySchedule(
             intervalStart: DateComponents(hour: 0, minute: 0),
             intervalEnd: DateComponents(hour: 23, minute: 59),
             repeats: true
         )
 
-        // Create threshold events for each minute up to 480 minutes (8 hours)
-        // Each event fires once per day when cumulative usage reaches that threshold
         var events: [DeviceActivityEvent.Name: DeviceActivityEvent] = [:]
         for minute in 1...480 {
             let event = DeviceActivityEvent(
@@ -87,11 +84,4 @@ class ScreenTimeMonitor: ObservableObject {
         hasCompletedSetup = false
         defaults.set(false, forKey: "hasCompletedSetup")
     }
-
-    #if DEBUG
-    // Manual method for testing in development only
-    func deductScreenTime(minutes: Int) {
-        CounterManager.shared.deductScreenTime(minutes: minutes)
-    }
-    #endif
 }

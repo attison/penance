@@ -118,31 +118,6 @@ class CounterManager: ObservableObject {
         saveData()
     }
 
-    func deductScreenTime(minutes: Int) {
-        let previousBalance = balanceMinutes
-
-        // 1. Update daily screen time
-        persistence.addDailyScreenTime(minutes)
-
-        // 2. Recalculate all totals from daily data
-        persistence.recalculateTotals()
-
-        // 3. Calculate balance from totals
-        totalWorkouts = persistence.totalWorkouts
-        totalScreenTimeMinutes = persistence.totalScreenTimeMinutes
-        let minutesEarned = totalWorkouts / workoutsPerMinute
-        balanceMinutes = minutesEarned - totalScreenTimeMinutes
-
-        saveData()
-
-        if previousBalance >= 0 && balanceMinutes < 0 && wasPositive {
-            notificationService.sendTimeUpNotification()
-            wasPositive = false
-        } else if balanceMinutes >= 0 {
-            wasPositive = true
-        }
-    }
-
     // MARK: - Private Methods
 
     func reloadData() {
