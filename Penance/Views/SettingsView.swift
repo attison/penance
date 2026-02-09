@@ -6,6 +6,8 @@ struct SettingsView: View {
     @State private var workoutType: String = PersistenceService.shared.workoutType
     @State private var workoutsPerMinute: String = String(PersistenceService.shared.workoutsPerMinute)
     @State private var isPickerPresented = false
+    @State private var isAdjustScreenTimePresented = false
+    @State private var manualScreenTimeInput: String = ""
 
     var body: some View {
         ZStack {
@@ -80,6 +82,15 @@ struct SettingsView: View {
                         .padding(.top, 8)
                     }
 
+                    Button(action: {
+                        isAdjustScreenTimePresented = true
+                    }) {
+                        Text("Manually Adjust Screen Time")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(.black)
+                    }
+                    .padding(.top, 8)
+
                     Spacer()
 
                     VStack(alignment: .leading, spacing: 8) {
@@ -121,6 +132,47 @@ struct SettingsView: View {
             if !newSelection.applicationTokens.isEmpty {
                 screenTimeMonitor.startMonitoring()
             }
+        }
+        .sheet(isPresented: $isAdjustScreenTimePresented) {
+            VStack(spacing: 20) {
+                Text("How many minutes of screen time have you viewed today?")
+                    .font(.system(size: 16, weight: .medium))
+                    .multilineTextAlignment(.center)
+                    .padding()
+
+                TextField("0", text: $manualScreenTimeInput)
+                    .font(.system(size: 18, weight: .medium))
+                    .keyboardType(.numberPad)
+                    .multilineTextAlignment(.center)
+                    .padding()
+                    .background(Color.gray.opacity(0.1))
+                    .cornerRadius(10)
+                    .padding(.horizontal, 40)
+
+                Button(action: {
+                    if let minutes = Int(manualScreenTimeInput), minutes >= 0 {
+                        PersistenceService.shared.setDailyScreenTime(minutes)
+                        PersistenceService.shared.recalculateTotals()
+                        CounterManager.shared.reloadData()
+                        manualScreenTimeInput = ""
+                        isAdjustScreenTimePresented = false
+                    }
+                }) {
+                    Text("Save")
+                        .font(.system(size: 16, weight: .semibold))
+                        .foregroundColor(.white)
+                        .frame(maxWidth: .infinity)
+                        .padding()
+                        .background(Color.blue)
+                        .cornerRadius(10)
+                }
+                .padding(.horizontal, 40)
+                .padding(.top, 10)
+
+                Spacer()
+            }
+            .padding(.top, 40)
+            .presentationDetents([.medium])
         }
         .simultaneousGesture(
             TapGesture().onEnded {

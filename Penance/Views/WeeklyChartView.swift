@@ -82,12 +82,10 @@ struct WeeklyChartView: View {
 
     var chartWithGridlines: some View {
         VStack(spacing: 0) {
-            // Tooltip area - aligned over specific bars
             HStack(alignment: .bottom, spacing: 4) {
                 ForEach(Array(weekData.enumerated()), id: \.element.id) { index, day in
                     ZStack {
                         HStack(alignment: .bottom, spacing: 2) {
-                            // Workout bar tooltip position
                             Color.clear
                                 .frame(width: 14)
                                 .overlay(
@@ -100,7 +98,6 @@ struct WeeklyChartView: View {
                                     }
                                 )
 
-                            // Screen time bar tooltip position
                             Color.clear
                                 .frame(width: 14)
                                 .overlay(
@@ -120,7 +117,6 @@ struct WeeklyChartView: View {
             .frame(height: 50)
             .padding(.bottom, 4)
 
-            // Chart area with gridlines and bars
             ZStack(alignment: .bottom) {
                 gridLines
                 HStack(alignment: .bottom, spacing: 4) {
@@ -258,7 +254,6 @@ struct WeeklyChartView: View {
             .cornerRadius(6)
             .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 1)
 
-            // Carat pointing down
             Triangle()
                 .fill(backgroundColor)
                 .frame(width: 12, height: 6)

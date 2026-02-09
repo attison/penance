@@ -13,12 +13,10 @@ struct DayData: Identifiable {
 class CounterManager: ObservableObject {
     static let shared = CounterManager()
 
-    // MARK: - Published Properties
     @Published var balanceMinutes: Int = 0
     @Published var totalWorkouts: Int = 0
     @Published var totalScreenTimeMinutes: Int = 0
 
-    // MARK: - Private Properties
     private let persistence = PersistenceService.shared
     private let notificationService = NotificationService.shared
     private var wasPositive = true
@@ -71,8 +69,6 @@ class CounterManager: ObservableObject {
         wasPositive = balanceMinutes >= 0
     }
 
-    // MARK: - Public Methods
-
     func getWeekData(weekOffset: Int = 0) -> [DayData] {
         let calendar = Calendar.current
         let today = Date()
@@ -112,8 +108,6 @@ class CounterManager: ObservableObject {
         saveData()
     }
 
-    // MARK: - Private Methods
-
     func reloadData() {
         persistence.recalculateTotals()
 
@@ -123,7 +117,7 @@ class CounterManager: ObservableObject {
         let minutesEarned = totalWorkouts / workoutsPerMinute
         balanceMinutes = minutesEarned - totalScreenTimeMinutes
 
-        saveData()
+        persistence.balanceMinutes = balanceMinutes
     }
 
     private func saveData() {

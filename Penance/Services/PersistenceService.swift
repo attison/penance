@@ -27,7 +27,6 @@ class PersistenceService {
         return formatter
     }()
 
-    // MARK: - Properties
     var balanceMinutes: Int {
         get { defaults.integer(forKey: Keys.balanceMinutes) }
         set { defaults.set(newValue, forKey: Keys.balanceMinutes) }
@@ -122,7 +121,6 @@ class PersistenceService {
         }
     }
 
-    // MARK: - Daily Tracking
     func addDailyWorkouts(_ count: Int, for date: Date = Date()) {
         let dateKey = dateFormatter.string(from: date)
         var dailyData = defaults.dictionary(forKey: Keys.dailyWorkouts) as? [String: [String: Any]] ?? [:]
@@ -142,6 +140,15 @@ class PersistenceService {
         var dailyData = defaults.dictionary(forKey: Keys.dailyScreenTime) as? [String: Int] ?? [:]
         dailyData[dateKey, default: 0] += minutes
         defaults.set(dailyData, forKey: Keys.dailyScreenTime)
+    }
+
+    func setDailyScreenTime(_ minutes: Int, for date: Date = Date()) {
+        let dateKey = dateFormatter.string(from: date)
+        var dailyData = defaults.dictionary(forKey: Keys.dailyScreenTime) as? [String: Int] ?? [:]
+        dailyData[dateKey] = minutes
+        defaults.set(dailyData, forKey: Keys.dailyScreenTime)
+
+        defaults.set(minutes, forKey: "processedMinutesToday")
     }
 
     func getDailyWorkouts(for date: Date) -> Int {

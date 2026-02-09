@@ -73,6 +73,8 @@ class ScreenTimeMonitor: ObservableObject {
             return
         }
 
+        activityCenter.stopMonitoring([activityName])
+
         saveSelectedApps()
 
         let schedule = DeviceActivitySchedule(
