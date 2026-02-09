@@ -12,7 +12,7 @@ struct WeeklyChartView: View {
     var maxMinutes: Int {
         let workoutMax = weekData.map { $0.workouts }.max() ?? 0
         let minuteMax = weekData.map { $0.screenTimeMinutes }.max() ?? 0
-        let workoutAsMinutes = (workoutMax + workoutsPerMinute - 1) / workoutsPerMinute // Round up
+        let workoutAsMinutes = workoutMax / workoutsPerMinute
         let dataMax = max(workoutAsMinutes, minuteMax)
         let rounded = ((dataMax + 19) / 20) * 20
         return max(rounded, 20)
@@ -37,7 +37,8 @@ struct WeeklyChartView: View {
 
     var balanceText: String {
         if weekBalance == 0 {
-            return "Your week was balanced"
+            let verb = title == "This Week" ? "is" : "was"
+            return "Your week \(verb) balanced"
         } else if weekBalance > 0 {
             return "Balance: +\(weekBalance) min"
         } else {
@@ -66,6 +67,101 @@ struct WeeklyChartView: View {
             .frame(height: 1)
     }
 
+    var chartWithGridlines: some View {
+        ZStack(alignment: .bottom) {
+            gridLines
+            bars
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: chartHeight)
+    }
+
+    var gridLines: some View {
+        GeometryReader { geometry in
+            ForEach([1.0, 0.75, 0.5, 0.25, 0.0], id: \.self) { position in
+                gridLine
+                    .position(x: geometry.size.width / 2, y: geometry.size.height * (1 - position))
+            }
+        }
+    }
+
+    var bars: some View {
+        HStack(alignment: .bottom, spacing: 4) {
+            ForEach(Array(weekData.enumerated()), id: \.element.id) { index, day in
+                barColumn(for: day)
+            }
+        }
+    }
+
+    func barColumn(for day: DayData) -> some View {
+        VStack(spacing: 0) {
+            Spacer(minLength: 0)
+            HStack(alignment: .bottom, spacing: 2) {
+                RoundedRectangle(cornerRadius: 3)
+                    .fill(Color(red: 0.051, green: 0.380, blue: 0.370))
+                    .frame(width: 14, height: barHeight(workouts: day.workouts))
+
+                RoundedRectangle(cornerRadius: 3)
+                    .fill(Color(red: 0.169, green: 0.051, blue: 0.008))
+                    .frame(width: 14, height: barHeight(minutes: day.screenTimeMinutes))
+            }
+        }
+        .frame(maxWidth: .infinity)
+        .frame(height: chartHeight, alignment: .bottom)
+    }
+
+    var dayLabels: some View {
+        HStack(alignment: .top, spacing: 4) {
+            ForEach(Array(weekData.enumerated()), id: \.element.id) { index, day in
+                Text(index < daysOfWeek.count ? daysOfWeek[index] : "")
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(.secondary)
+                    .frame(maxWidth: .infinity)
+            }
+        }
+        .padding(.top, 4)
+    }
+
+    var leftAxisLabels: some View {
+        ZStack(alignment: .trailing) {
+            GeometryReader { geometry in
+                ForEach([
+                    (1.0, maxWorkouts),
+                    (0.75, maxWorkouts * 3 / 4),
+                    (0.5, maxWorkouts / 2),
+                    (0.25, maxWorkouts / 4),
+                    (0.0, 0)
+                ], id: \.0) { position, value in
+                    Text("\(value)")
+                        .font(.system(size: 10))
+                        .foregroundColor(.secondary)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * (1 - position))
+                }
+            }
+        }
+        .frame(width: 30, height: chartHeight)
+    }
+
+    var rightAxisLabels: some View {
+        ZStack(alignment: .leading) {
+            GeometryReader { geometry in
+                ForEach([
+                    (1.0, maxMinutes),
+                    (0.75, maxMinutes * 3 / 4),
+                    (0.5, maxMinutes / 2),
+                    (0.25, maxMinutes / 4),
+                    (0.0, 0)
+                ], id: \.0) { position, value in
+                    Text("\(value)")
+                        .font(.system(size: 10))
+                        .foregroundColor(.secondary)
+                        .position(x: geometry.size.width / 2, y: geometry.size.height * (1 - position))
+                }
+            }
+        }
+        .frame(width: 30, height: chartHeight)
+    }
+
     var body: some View {
         VStack(spacing: 8) {
             HStack(alignment: .center) {
@@ -81,107 +177,18 @@ struct WeeklyChartView: View {
             }
             .padding(.bottom, 8)
 
-            HStack(alignment: .bottom, spacing: 0) {
-                ZStack(alignment: .trailing) {
-                    VStack(spacing: 0) {
-                        Text("\(maxWorkouts)")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                        Spacer()
-                        Text("\(maxWorkouts * 3 / 4)")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                        Spacer()
-                        Text("\(maxWorkouts / 2)")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                        Spacer()
-                        Text("\(maxWorkouts / 4)")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                        Spacer()
-                        Text("0")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                    }
+            VStack(spacing: 0) {
+                HStack(alignment: .bottom, spacing: 0) {
+                    leftAxisLabels
+                    chartWithGridlines
+                    rightAxisLabels
                 }
-                .frame(width: 30, height: chartHeight)
 
-                ZStack(alignment: .bottom) {
-                    VStack(spacing: 0) {
-                        gridLine
-                        Spacer()
-                        gridLine
-                        Spacer()
-                        gridLine
-                        Spacer()
-                        gridLine
-                        Spacer()
-                    }
-                    .frame(height: chartHeight)
-
-                    HStack(alignment: .bottom, spacing: 4) {
-                        ForEach(Array(weekData.enumerated()), id: \.element.id) { index, day in
-                            VStack(spacing: 4) {
-                                VStack(spacing: 0) {
-                                    Spacer(minLength: 0)
-
-                                    HStack(alignment: .bottom, spacing: 2) {
-                                        RoundedRectangle(cornerRadius: 3)
-                                            .fill(Color(red: 0.051, green: 0.380, blue: 0.370))
-                                            .frame(width: 14, height: max(barHeight(workouts: day.workouts), 3))
-
-                                        RoundedRectangle(cornerRadius: 3)
-                                            .fill(Color(red: 0.169, green: 0.051, blue: 0.008))
-                                            .frame(width: 14, height: max(barHeight(minutes: day.screenTimeMinutes), 3))
-                                    }
-                                }
-                                .frame(height: chartHeight, alignment: .bottom)
-
-                                Text(index < daysOfWeek.count ? daysOfWeek[index] : "")
-                                    .font(.system(size: 11, weight: .medium))
-                                    .foregroundColor(.secondary)
-                            }
-                            .frame(maxWidth: .infinity)
-                        }
-                    }
+                HStack(spacing: 0) {
+                    Spacer().frame(width: 30)
+                    dayLabels
+                    Spacer().frame(width: 30)
                 }
-                .frame(maxWidth: .infinity)
-
-                ZStack(alignment: .leading) {
-                    VStack(spacing: 0) {
-                        Text("\(maxMinutes)")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                        Spacer()
-                        Text("\(maxMinutes * 3 / 4)")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                        Spacer()
-                        Text("\(maxMinutes / 2)")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                        Spacer()
-                        Text("\(maxMinutes / 4)")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                        Spacer()
-                        Text("0")
-                            .font(.system(size: 10))
-                            .foregroundColor(.secondary)
-                            .frame(height: 0)
-                    }
-                }
-                .frame(width: 30, height: chartHeight)
             }
 
             HStack(spacing: 20) {
@@ -212,11 +219,13 @@ struct WeeklyChartView: View {
 
     private func barHeight(workouts: Int) -> CGFloat {
         guard maxWorkouts > 0 else { return 0 }
-        return (CGFloat(workouts) / CGFloat(maxWorkouts)) * chartHeight
+        let height = (CGFloat(workouts) / CGFloat(maxWorkouts)) * chartHeight
+        return height.rounded(.toNearestOrAwayFromZero)
     }
 
     private func barHeight(minutes: Int) -> CGFloat {
         guard maxMinutes > 0 else { return 0 }
-        return (CGFloat(minutes) / CGFloat(maxMinutes)) * chartHeight
+        let height = (CGFloat(minutes) / CGFloat(maxMinutes)) * chartHeight
+        return height.rounded(.toNearestOrAwayFromZero)
     }
 }

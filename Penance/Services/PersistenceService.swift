@@ -102,7 +102,6 @@ class PersistenceService {
         get {
             let value = defaults.integer(forKey: Keys.workoutsPerMinute)
             if value == 0 {
-                // First time - set default
                 let defaultValue = 5
                 defaults.set(defaultValue, forKey: Keys.workoutsPerMinute)
                 return defaultValue
@@ -172,7 +171,6 @@ class PersistenceService {
         }
     }
 
-    // Recalculate totals from daily dictionaries
     func recalculateTotals() {
         let calendar = Calendar.current
         let now = Date()
@@ -225,7 +223,6 @@ class PersistenceService {
             }
         }
 
-        // Update stored totals
         totalWorkouts = allTimeWorkouts
         totalScreenTimeMinutes = allTimeScreenTime
         ytdWorkouts = ytdWorkoutsCalc

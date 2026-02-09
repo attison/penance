@@ -125,7 +125,6 @@ class DeviceActivityMonitorExtension: DeviceActivityMonitor {
             }
         }
 
-        // Update stored totals
         defaults.set(allTimeWorkouts, forKey: "totalWorkouts")
         defaults.set(allTimeScreenTime, forKey: "totalScreenTimeMinutes")
         defaults.set(ytdWorkouts, forKey: "ytdWorkouts")

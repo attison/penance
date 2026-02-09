@@ -26,7 +26,6 @@ class ScreenTimeMonitor: ObservableObject {
     }
 
     private func loadSelectedApps() {
-        // Try to load persisted selection
         if let data = defaults.data(forKey: "selectedAppsData") {
             do {
                 selectedApps = try JSONDecoder().decode(FamilyActivitySelection.self, from: data)
