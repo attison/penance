@@ -123,7 +123,7 @@ class CounterManager: ObservableObject {
         let minutesEarned = totalWorkouts / workoutsPerMinute
         balanceMinutes = minutesEarned - totalScreenTimeMinutes
 
-        persistence.balanceMinutes = balanceMinutes
+        saveData()
     }
 
     private func saveData() {
