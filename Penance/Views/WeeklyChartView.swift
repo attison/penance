@@ -9,6 +9,19 @@ struct WeeklyChartView: View {
     private let daysOfWeek = ["S", "M", "T", "W", "T", "F", "S"]
     private let chartHeight: CGFloat = 200
 
+    @State private var tappedBar: TappedBarInfo?
+
+    enum BarType {
+        case workout
+        case screenTime
+    }
+
+    struct TappedBarInfo: Equatable {
+        let date: Date
+        let barType: BarType
+        let value: Int
+    }
+
     var maxMinutes: Int {
         let workoutMax = weekData.map { $0.workouts }.max() ?? 0
         let minuteMax = weekData.map { $0.screenTimeMinutes }.max() ?? 0
@@ -68,12 +81,57 @@ struct WeeklyChartView: View {
     }
 
     var chartWithGridlines: some View {
-        ZStack(alignment: .bottom) {
-            gridLines
-            bars
+        VStack(spacing: 0) {
+            // Tooltip area - aligned over specific bars
+            HStack(alignment: .bottom, spacing: 4) {
+                ForEach(Array(weekData.enumerated()), id: \.element.id) { index, day in
+                    ZStack {
+                        HStack(alignment: .bottom, spacing: 2) {
+                            // Workout bar tooltip position
+                            Color.clear
+                                .frame(width: 14)
+                                .overlay(
+                                    Group {
+                                        if let tapped = tappedBar, tapped.date == day.date, tapped.barType == .workout {
+                                            let label = workoutType
+                                            let color = Color(red: 0.051, green: 0.380, blue: 0.370)
+                                            tooltipView(value: tapped.value, label: label, color: color)
+                                        }
+                                    }
+                                )
+
+                            // Screen time bar tooltip position
+                            Color.clear
+                                .frame(width: 14)
+                                .overlay(
+                                    Group {
+                                        if let tapped = tappedBar, tapped.date == day.date, tapped.barType == .screenTime {
+                                            let label = "Minutes"
+                                            let color = Color(red: 0.169, green: 0.051, blue: 0.008)
+                                            tooltipView(value: tapped.value, label: label, color: color)
+                                        }
+                                    }
+                                )
+                        }
+                    }
+                    .frame(maxWidth: .infinity)
+                }
+            }
+            .frame(height: 50)
+            .padding(.bottom, 4)
+
+            // Chart area with gridlines and bars
+            ZStack(alignment: .bottom) {
+                gridLines
+                HStack(alignment: .bottom, spacing: 4) {
+                    ForEach(Array(weekData.enumerated()), id: \.element.id) { index, day in
+                        barColumn(for: day)
+                    }
+                }
+            }
+            .frame(maxWidth: .infinity)
+            .frame(height: chartHeight)
         }
-        .frame(maxWidth: .infinity)
-        .frame(height: chartHeight)
     }
 
     var gridLines: some View {
@@ -85,25 +143,39 @@ struct WeeklyChartView: View {
         }
     }
 
-    var bars: some View {
-        HStack(alignment: .bottom, spacing: 4) {
-            ForEach(Array(weekData.enumerated()), id: \.element.id) { index, day in
-                barColumn(for: day)
-            }
-        }
-    }
-
     func barColumn(for day: DayData) -> some View {
-        VStack(spacing: 0) {
+        let workoutColor = Color(red: 0.051, green: 0.380, blue: 0.370)
+        let screenTimeColor = Color(red: 0.169, green: 0.051, blue: 0.008)
+        let workoutHeight = barHeight(workouts: day.workouts)
+        let screenTimeHeight = barHeight(minutes: day.screenTimeMinutes)
+
+        return VStack(spacing: 0) {
             Spacer(minLength: 0)
+
             HStack(alignment: .bottom, spacing: 2) {
                 RoundedRectangle(cornerRadius: 3)
-                    .fill(Color(red: 0.051, green: 0.380, blue: 0.370))
-                    .frame(width: 14, height: barHeight(workouts: day.workouts))
+                    .fill(workoutColor)
+                    .frame(width: 14, height: workoutHeight)
+                    .onTapGesture {
+                        let newTap = TappedBarInfo(date: day.date, barType: .workout, value: day.workouts)
+                        if tappedBar == newTap {
+                            tappedBar = nil
+                        } else {
+                            tappedBar = newTap
+                        }
+                    }
 
                 RoundedRectangle(cornerRadius: 3)
-                    .fill(Color(red: 0.169, green: 0.051, blue: 0.008))
-                    .frame(width: 14, height: barHeight(minutes: day.screenTimeMinutes))
+                    .fill(screenTimeColor)
+                    .frame(width: 14, height: screenTimeHeight)
+                    .onTapGesture {
+                        let newTap = TappedBarInfo(date: day.date, barType: .screenTime, value: day.screenTimeMinutes)
+                        if tappedBar == newTap {
+                            tappedBar = nil
+                        } else {
+                            tappedBar = newTap
+                        }
+                    }
             }
         }
         .frame(maxWidth: .infinity)
@@ -123,47 +195,92 @@ struct WeeklyChartView: View {
     }
 
     var leftAxisLabels: some View {
-        ZStack(alignment: .trailing) {
-            GeometryReader { geometry in
-                ForEach([
-                    (1.0, maxWorkouts),
-                    (0.75, maxWorkouts * 3 / 4),
-                    (0.5, maxWorkouts / 2),
-                    (0.25, maxWorkouts / 4),
-                    (0.0, 0)
-                ], id: \.0) { position, value in
-                    Text("\(value)")
-                        .font(.system(size: 10))
-                        .foregroundColor(.secondary)
-                        .position(x: geometry.size.width / 2, y: geometry.size.height * (1 - position))
+        VStack(spacing: 0) {
+            Spacer()
+                .frame(height: 50)
+            ZStack(alignment: .trailing) {
+                GeometryReader { geometry in
+                    ForEach([
+                        (1.0, maxWorkouts),
+                        (0.75, maxWorkouts * 3 / 4),
+                        (0.5, maxWorkouts / 2),
+                        (0.25, maxWorkouts / 4),
+                        (0.0, 0)
+                    ], id: \.0) { position, value in
+                        Text("\(value)")
+                            .font(.system(size: 10))
+                            .foregroundColor(.secondary)
+                            .position(x: geometry.size.width / 2, y: geometry.size.height * (1 - position))
+                    }
                 }
             }
+            .frame(width: 30, height: chartHeight)
         }
-        .frame(width: 30, height: chartHeight)
     }
 
     var rightAxisLabels: some View {
-        ZStack(alignment: .leading) {
-            GeometryReader { geometry in
-                ForEach([
-                    (1.0, maxMinutes),
-                    (0.75, maxMinutes * 3 / 4),
-                    (0.5, maxMinutes / 2),
-                    (0.25, maxMinutes / 4),
-                    (0.0, 0)
-                ], id: \.0) { position, value in
-                    Text("\(value)")
-                        .font(.system(size: 10))
-                        .foregroundColor(.secondary)
-                        .position(x: geometry.size.width / 2, y: geometry.size.height * (1 - position))
+        VStack(spacing: 0) {
+            Spacer()
+                .frame(height: 50)
+            ZStack(alignment: .leading) {
+                GeometryReader { geometry in
+                    ForEach([
+                        (1.0, maxMinutes),
+                        (0.75, maxMinutes * 3 / 4),
+                        (0.5, maxMinutes / 2),
+                        (0.25, maxMinutes / 4),
+                        (0.0, 0)
+                    ], id: \.0) { position, value in
+                        Text("\(value)")
+                            .font(.system(size: 10))
+                            .foregroundColor(.secondary)
+                            .position(x: geometry.size.width / 2, y: geometry.size.height * (1 - position))
+                    }
                 }
             }
+            .frame(width: 30, height: chartHeight)
         }
-        .frame(width: 30, height: chartHeight)
+    }
+
+    func tooltipView(value: Int, label: String, color: Color) -> some View {
+        VStack(spacing: 0) {
+            VStack(spacing: 2) {
+                Text("\(value)")
+                    .font(.system(size: 14, weight: .semibold))
+                    .foregroundColor(color)
+                Text(label)
+                    .font(.system(size: 10, weight: .regular))
+                    .foregroundColor(color)
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 6)
+            .background(backgroundColor)
+            .cornerRadius(6)
+            .shadow(color: Color.black.opacity(0.1), radius: 3, x: 0, y: 1)
+
+            // Carat pointing down
+            Triangle()
+                .fill(backgroundColor)
+                .frame(width: 12, height: 6)
+                .shadow(color: Color.black.opacity(0.1), radius: 1, x: 0, y: 1)
+                .offset(y: -1)
+        }
+        .fixedSize()
+    }
+
+    struct Triangle: Shape {
+        func path(in rect: CGRect) -> Path {
+            var path = Path()
+            path.move(to: CGPoint(x: rect.midX, y: rect.maxY))
+            path.addLine(to: CGPoint(x: rect.minX, y: rect.minY))
+            path.addLine(to: CGPoint(x: rect.maxX, y: rect.minY))
+            path.closeSubpath()
+            return path
+        }
     }
 
     var body: some View {
-        VStack(spacing: 8) {
+        VStack(spacing: 0) {
             HStack(alignment: .center) {
                 Text(title)
                     .font(.system(size: 18, weight: .semibold))
@@ -175,7 +292,6 @@ struct WeeklyChartView: View {
                     .font(.system(size: 14, weight: .medium))
                     .foregroundColor(balanceColor)
             }
-            .padding(.bottom, 8)
 
             VStack(spacing: 0) {
                 HStack(alignment: .bottom, spacing: 0) {
@@ -210,9 +326,15 @@ struct WeeklyChartView: View {
                         .foregroundColor(.secondary)
                 }
             }
+            .padding(.top, 8)
         }
         .padding(16)
-        .background(backgroundColor)
+        .background(
+            backgroundColor
+                .onTapGesture {
+                    tappedBar = nil
+                }
+        )
         .cornerRadius(12)
         .shadow(color: Color.black.opacity(0.08), radius: 4, x: 0, y: 2)
     }
