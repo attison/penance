@@ -1,4 +1,4 @@
-# **Penance Privacy Policy**
+# **Privacy Policy and Support**
 
 This app does not collect, store, or transmit personal data.
 
@@ -8,6 +8,6 @@ The app uses Apple's Screen Time APIs solely to allow users to view and manage t
 
 No analytics, advertising, or tracking frameworks are used.
 
-If you have questions, contact: attisonlbarnes@gmail.com
+For support questions, please open an issue on this page.
 
 Last updated: February 2026
