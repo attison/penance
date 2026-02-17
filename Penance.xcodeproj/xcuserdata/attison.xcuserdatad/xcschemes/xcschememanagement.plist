@@ -12,12 +12,30 @@
 		<key>Penance.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
-			<integer>0</integer>
+			<integer>2</integer>
 		</dict>
 		<key>PenanceWidgetExtension.xcscheme_^#shared#^_</key>
 		<dict>
 			<key>orderHint</key>
 			<integer>1</integer>
+		</dict>
+	</dict>
+	<key>SuppressBuildableAutocreation</key>
+	<dict>
+		<key>5492B14E2F295E27007F0DFD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5492B17A2F29853F007F0DFD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
+		</dict>
+		<key>5492B1902F29891E007F0DFD</key>
+		<dict>
+			<key>primary</key>
+			<true/>
 		</dict>
 	</dict>
 </dict>
