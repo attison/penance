@@ -118,6 +118,7 @@ class CounterManager: ObservableObject {
         balanceMinutes = minutesEarned - totalScreenTimeMinutes
 
         persistence.balanceMinutes = balanceMinutes
+        WidgetCenter.shared.reloadAllTimelines()
     }
 
     private func saveData() {
